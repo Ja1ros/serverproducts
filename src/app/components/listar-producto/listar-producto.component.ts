@@ -55,13 +55,20 @@ export class ListarProductosComponent implements OnInit {
     const multi = peso * precio;
     const tresPrimerosDigitos = String(multi).substring(0, 4);
     const resultadoSinPunto = tresPrimerosDigitos.replace('.', '');
-    const MMM = (peso * precio + peso * precio + peso * precio).toFixed(2).replace('.', '');
-    console.log(MMM)
-    const N = Number(MMM.substring(0, 1)); // Tomar el último dígito
-    console.log(N)
-  
-    return `26${codigo}000${resultadoSinPunto}${N}`;
-    
+
+    const ultimoDigitoP = Number(resultadoSinPunto.charAt(resultadoSinPunto.length - 1));
+    let resultadoRedondeado: number;
+    if (ultimoDigitoP >= 5) {
+        resultadoRedondeado = parseInt(resultadoSinPunto) + 1;
+    } else {
+        resultadoRedondeado = parseInt(resultadoSinPunto);
+    }
+
+    const MMM = peso * precio + peso * precio + peso * precio;
+    const redondeado = Math.round(MMM * 100); // Redondear a dos decimales
+    const resultadoSinPuntoF = redondeado.toString();
+    const ultimoDigito = Number(resultadoSinPuntoF.charAt(resultadoSinPuntoF.length - 1)); 
+    return `26${codigo}000${resultadoRedondeado}${ultimoDigito}`;    
   }
 
   mostrarVentanaEmergente(urlImagen: string): void {
