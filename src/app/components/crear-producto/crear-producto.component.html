@@ -14,11 +14,19 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <input type="text" formControlName="codigo" class="form-control form-control-lg"
-                                placeholder="codigo">
+                            <input type="text" formControlName="codigo" class="form-control form-control-lg" placeholder="Codigo">
                             <div class="text-danger"
                                 *ngIf="productoForm.get('codigo')?.hasError('required') && productoForm.get('codigo')?.touched">
-                                <span>El codigo <strong>es obligatorio</strong></span>
+                                <span>El código <strong>es obligatorio</strong></span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <input type="text" formControlName="peso" class="form-control form-control-lg"
+                                placeholder="peso">
+                            <div class="text-danger"
+                                *ngIf="productoForm.get('peso')?.hasError('required') && productoForm.get('peso')?.touched">
+                                <span>El peso <strong>es obligatorio</strong></span>
                             </div>
                         </div>
                         <div class="mb-3">

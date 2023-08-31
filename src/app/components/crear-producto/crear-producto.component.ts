@@ -22,6 +22,7 @@ export class CrearProductoComponent implements OnInit {
     this.productoForm = this.fb.group({
       producto: ['', Validators.required],
       codigo: ['', Validators.required],
+      peso: ['', Validators.required],
       precio: ['', Validators.required],
     })
     this.id = this.aRouter.snapshot.paramMap.get('id');
@@ -36,8 +37,10 @@ export class CrearProductoComponent implements OnInit {
     const PRODUCTO: Producto = {
       nombre: this.productoForm.get('producto')?.value,
       codigo: this.productoForm.get('codigo')?.value,
+      peso: this.productoForm.get('peso')?.value,
       precio: this.productoForm.get('precio')?.value,
     }
+
 
     console.log(PRODUCTO);
     this._productoService.guardarProducto(PRODUCTO).subscribe(data => {
@@ -59,6 +62,7 @@ export class CrearProductoComponent implements OnInit {
         this.productoForm.setValue({
           producto: data.nombre,
           codigo: data.codigo,
+          peso: data.peso,
           precio: data.precio,
         })
       })

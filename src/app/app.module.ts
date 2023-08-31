@@ -11,14 +11,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { CrearProductoComponent } from './components/crear-producto/crear-producto.component';
 import { ListarProductosComponent } from './components/listar-producto/listar-producto.component';
-import { CrearCodigoComponent } from './components/crear-codigo/crear-codigo.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     CrearProductoComponent,
-    ListarProductosComponent,
-    CrearCodigoComponent
+    ListarProductosComponent
   ],
   imports: [
     BrowserModule,

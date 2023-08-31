@@ -10,7 +10,10 @@
                           <tr>
                             <th scope="col">Producto</th>
                             <th scope="col">Codigo</th>
+                            <th scope="col">Peso</th>
                             <th scope="col">Precio</th>
+                            <th scope="col">Código de Barras</th>
+                            <th scope="col">imagen</th>
                             <th scope="col"></th>
                           </tr>
                         </thead>
@@ -18,7 +21,13 @@
                           <tr *ngFor="let producto of listProductos">
                             <td>{{ producto.nombre }}</td>
                             <td>{{ producto.codigo }}</td>
+                            <td>{{ producto.peso }}</td>
                             <td>{{ producto.precio}}</td>
+                            <td>{{ calcularCodigoBarras(producto.codigo.toString(), producto.peso, producto.precio) }}</td>
+                            <td>
+                              <button class="btn btn-outline-danger btn-sm" (click)="mostrarVentanaEmergente(generarCodigoBarras(producto.codigo.toString(), producto.peso, producto.precio))">
+                                Mostrar Código
+                              </button>          
                             <td>
                                 <i [routerLink]="['/editar-producto', producto._id]" class="fas fa-edit text-primary"></i>
                                 <i (click)="eliminarProducto(producto._id)" class="fas fa-trash text-danger"></i>
@@ -31,4 +40,25 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="container mt-5">>
+  <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="../../../assets/Mega.jpg" class="d-block w-80" alt="...">
+      </div>
+      <div class="carousel-item active">
+        <img src="../../../assets/bg5.jpg" class="d-block w-80" alt="...">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
 </div>
