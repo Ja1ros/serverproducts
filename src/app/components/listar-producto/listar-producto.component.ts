@@ -49,31 +49,87 @@ export class ListarProductosComponent implements OnInit {
     return url;
   }
 
-  
 
   calcularCodigoBarras(codigo: string, peso: number, precio: number): string {
     const multi = peso * precio;
-    const tresPrimerosDigitos = String(multi).substring(0, 4);
-    const resultadoSinPunto = tresPrimerosDigitos.replace('.', '');
+    const redondeado = Math.ceil(multi * 1000);
+    const dosD = String(redondeado).substring(0, 2);
+    const tresD = String(redondeado).substring(0, 3);
+    const numeroStr = multi.toString();
+    const partes = numeroStr.split('.');
+    const parteEntera = partes[0];
+    const parteDecimal = partes[1] || '';
 
-    const ultimoDigitoP = Number(resultadoSinPunto.charAt(resultadoSinPunto.length - 1));
-    let resultadoRedondeado: number;
-    if (ultimoDigitoP >= 5) {
-        resultadoRedondeado = parseInt(resultadoSinPunto) + 1;
-    } else {
-        resultadoRedondeado = parseInt(resultadoSinPunto);
+    if (parteDecimal.length >= 3) {
+      const tercerDecimal = parseInt(parteDecimal[2], 10);
+        if (tercerDecimal >= 5) {
+          const segundoDecimal = parseInt(parteDecimal[1], 10);
+          const nuevoSegundoDecimal = (segundoDecimal + 1) % 10;
+          const primerDecimal = parseInt(parteDecimal[0], 10);
+          const nuevoprimerDecimal = primerDecimal + (segundoDecimal + 1 >= 10 ? 1 : 0);
+          // Construir el nuevo número con el segundo decimal ajustado
+          let resultado = `26${codigo}000${parteEntera}${nuevoprimerDecimal}${nuevoSegundoDecimal}`;
+          // Controlar que el resultado no tenga más de 13 dígitos
+            if (resultado.length > 13) {
+              resultado = resultado.substring(0, 11);
+            }
+          // Calcular y agregar el último dígito utilizando calcularUltimoDigito
+          const codigoConUltimoDigito = calcularUltimoDigito(resultado);
+          return `26${codigo}000${parteEntera}${nuevoprimerDecimal}${nuevoSegundoDecimal}${codigoConUltimoDigito}`;
+        }
     }
-
-    const MMM = peso * precio + peso * precio + peso * precio;
-    const redondeado = Math.round(MMM * 100); // Redondear a dos decimales
-    const resultadoSinPuntoF = redondeado.toString();
-    const ultimoDigito = Number(resultadoSinPuntoF.charAt(resultadoSinPuntoF.length - 1)); 
-    return `26${codigo}000${resultadoRedondeado}${ultimoDigito}`;    
+    // Controlar que el resultado no tenga más de 13 dígitos
+    if (`26${codigo}000${tresD}`.length > 13) {
+      return `26${codigo}000${tresD}`.substring(0, 13);
+    }
+    // Calcular y agregar el último dígito utilizando calcularUltimoDigito
+    const codigoConUltimoDigito = calcularUltimoDigito(`26${codigo}000${tresD}`);
+    return `26${codigo}000${tresD}${codigoConUltimoDigito}`;
   }
-
   mostrarVentanaEmergente(urlImagen: string): void {
     window.open(urlImagen, 'Codigo de Barras', 'width=400,height=400');
   }
-
 }
+
+
+  function calcularUltimoDigito(codigoBarras: string): number {
+    // Verificar que el código de barras tenga 12 caracteres
+    if (codigoBarras.length !== 12) {
+      throw new Error("El código de barras debe tener 12 caracteres.");
+    }
+  
+    // Convertir el código de barras en un arreglo de números
+    const numeros = codigoBarras.split("").map((char) => parseInt(char, 10));
+  
+    // Sumar todos los dígitos en las posiciones pares (0-indexed)
+    let sumaPares = 0;
+    for (let i = 0; i < numeros.length; i++) {
+      if (i % 2 === 0) {
+        sumaPares += numeros[i];
+      }
+    }
+  
+    // Sumar todos los dígitos en las posiciones impares (0-indexed)
+    let sumaImpares = 0;
+    for (let i = 0; i < numeros.length; i++) {
+      if (i % 2 === 1) {
+        sumaImpares += numeros[i];
+      }
+    }
+  
+    // Multiplicar por 3 el valor obtenido en la suma de los dígitos impares
+    const multiplicadoPorTres = sumaImpares * 3;
+  
+    // Sumar este valor más la suma de los pares
+    const sumaTotal = multiplicadoPorTres + sumaPares;
+  
+    // Redondear el valor obtenido a la decena inmediatamente superior
+    const redondeado = Math.ceil(sumaTotal / 10) * 10;
+  
+    // Calcular el dígito de control restando la suma total del redondeo
+    const digitoControl = redondeado - sumaTotal;
+  
+    return digitoControl;
+  }
+
 

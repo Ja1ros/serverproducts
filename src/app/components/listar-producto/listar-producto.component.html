@@ -3,15 +3,15 @@
         <div class="col-lg-8 offset-lg-2">
             <div class="card">
                 <div class="card-body text-center">
-                    <span class="titulo">LISTADO DE PRODUCTOS</span>
+                    <span class="titulo">CARNES </span>
                     <button class="btn btn-success float-end" routerLink="/crear-producto">NUEVO</button>
-                    <table *ngIf="listProductos.length > 0" class="table table-striped mt-3">
-                        <thead>
+                    <table *ngIf="listProductos.length > 0" class= "table-responsive table-bordered">
+                        <thead >
                           <tr>
                             <th scope="col">Producto</th>
                             <th scope="col">Codigo</th>
-                            <th scope="col">Peso</th>
-                            <th scope="col">Precio</th>
+                            <!-- <th scope="col">Peso</th> -->
+                           <!-- <th scope="col">Precio</th> --> 
                             <th scope="col">Código de Barras</th>
                             <th scope="col">imagen</th>
                             <th scope="col"></th>
@@ -21,8 +21,8 @@
                           <tr *ngFor="let producto of listProductos">
                             <td>{{ producto.nombre }}</td>
                             <td>{{ producto.codigo }}</td>
-                            <td>{{ producto.peso }}</td>
-                            <td>{{ producto.precio}}</td>
+                            <!-- <td>{{ producto.peso }}</td> -->
+                            <!-- <td>{{ producto.precio}}</td> -->
                             <td>{{ calcularCodigoBarras(producto.codigo.toString(), producto.peso, producto.precio) }}</td>
                             <td>
                               <button class="btn btn-outline-danger btn-sm" (click)="mostrarVentanaEmergente(generarCodigoBarras(producto.codigo.toString(), producto.peso, producto.precio))">
@@ -47,9 +47,6 @@
     <div class="carousel-inner">
       <div class="carousel-item active">
         <img src="../../../assets/Mega.jpg" class="d-block w-80" alt="...">
-      </div>
-      <div class="carousel-item active">
-        <img src="../../../assets/bg5.jpg" class="d-block w-80" alt="...">
       </div>
     </div>
     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">

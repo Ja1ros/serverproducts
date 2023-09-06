@@ -41,8 +41,16 @@ export class CrearProductoComponent implements OnInit {
       precio: this.productoForm.get('precio')?.value,
     }
 
-
-    console.log(PRODUCTO);
+    if(this.id !== null){
+      //editamos
+      this._productoService.editarProducto(this.id, PRODUCTO).subscribe(data=>{
+        this.toastr.info('EL producto fue actualizado con exito!', 'Producto Actualizado!');
+        this.router.navigate(['/']);
+      })
+      
+    } else{
+      //agregamos
+      console.log(PRODUCTO);
     this._productoService.guardarProducto(PRODUCTO).subscribe(data => {
       this.toastr.success('El producto fue registrado con exito!', 'Producto Registrado!');
       this.router.navigate(['/']);
@@ -50,6 +58,11 @@ export class CrearProductoComponent implements OnInit {
       console.log(error);
       this.productoForm.reset();
     })
+
+    }
+
+
+    
 
   
   }
