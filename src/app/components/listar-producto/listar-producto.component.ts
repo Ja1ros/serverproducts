@@ -11,6 +11,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ListarProductosComponent implements OnInit {
   listProductos: Producto[] = [];
+  productosFiltrados: Producto[] = [];
+  busqueda: string = '';
   
   constructor(private _productoService: ProductoService,
         private toastr: ToastrService,
@@ -18,6 +20,12 @@ export class ListarProductosComponent implements OnInit {
 
   ngOnInit(): void {
     this.obtenerProductos();
+  }
+
+  filtrarProductos() {
+    this.productosFiltrados = this.listProductos.filter(producto =>
+      producto.nombre.toLowerCase().includes(this.busqueda.toLowerCase())
+    );
   }
 
 
@@ -32,12 +40,15 @@ export class ListarProductosComponent implements OnInit {
   }
 
   eliminarProducto(id: any) {
-    this._productoService.eliminarProducto(id).subscribe(data => {
-      this.toastr.error('El producto fue eliminado con exito' ,'Producto Eliminado');
-      this.obtenerProductos();
+    if(confirm('Esta seguro de eliminar este producto?')){
+      this._productoService.eliminarProducto(id).subscribe(data => {
+        this.toastr.error('El producto fue eliminado con exito' ,'Producto Eliminado');
+        this.obtenerProductos();
     }, error => {
       console.log(error);
-    })
+    
+    });
+    }
   }
 
   generarCodigoBarras(codigo: string, peso: number, precio: number): string {

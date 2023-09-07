@@ -1,9 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+
 body {
-    background: #8E0E00;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #1F1C18, #8E0E00);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #1F1C18, #8E0E00); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background-image: url('./assets/Mega.jpg'); /* Reemplaza 'ruta-de-tu-imagen.jpg' con la ubicación de tu imagen */
+    background-size: cover; /* Escala la imagen para que cubra todo el fondo */
+    background-repeat: no-repeat; /* Evita que la imagen de fondo se repita */
+    background-attachment: fixed; /* Mantiene la imagen de fondo fija mientras se desplaza la página */
+    /* Otros estilos CSS para el contenido de tu página */
 }
+
 
 .titulo {
     font-size: 1.8rem;
