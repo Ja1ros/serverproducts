@@ -13,17 +13,16 @@
                             class="form-control"
                             placeholder="Buscar producto"
                             [(ngModel)]="busqueda"
-                            (input)="filtrarProductos()"
                           />
                         </div>
                       </div>
-                      <table *ngIf="listProductos.length > 0" class= "table table-hover table-bordered">
+                      <table *ngIf="listProductos.length > 0" class= "table table-responsive table-bordered">
                           <thead >
                             <tr>
                               <th scope="col">Producto</th>
                               <th scope="col">Codigo</th>
-                              <th scope="col">Peso</th> 
-                              <th scope="col">Precio</th>  
+                              <!-- <th scope="col">Peso</th>  -->
+                              <!-- <th scope="col">Precio</th>   -->
                               <th scope="col">Código de Barras</th>
                               <th scope="col">imagen</th>
                               <th scope="col"></th>
@@ -33,8 +32,8 @@
                             <tr *ngFor="let producto of productosFiltrados">
                               <td>{{ producto.nombre }}</td>
                               <td>{{ producto.codigo }}</td>
-                              <td>{{ producto.peso }}</td>
-                              <td>{{ producto.precio}}</td>
+                              <!-- <td>{{ producto.peso }}</td> -->
+                              <!-- <td>{{ producto.precio}}</td> -->
                               <td>{{ calcularCodigoBarras(producto.codigo.toString(), producto.peso, producto.precio) }}</td>
                               <td>
                                 <button class="btn btn-outline-danger btn-sm" (click)="mostrarVentanaEmergente(generarCodigoBarras(producto.codigo.toString(), producto.peso, producto.precio))">

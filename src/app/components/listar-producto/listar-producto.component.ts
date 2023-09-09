@@ -11,8 +11,13 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ListarProductosComponent implements OnInit {
   listProductos: Producto[] = [];
-  productosFiltrados: Producto[] = [];
   busqueda: string = '';
+
+  get productosFiltrados() {
+    return this.listProductos.filter((producto) =>
+      producto.nombre.toLowerCase().includes(this.busqueda.toLowerCase())
+    );
+  }
   
   constructor(private _productoService: ProductoService,
         private toastr: ToastrService,
@@ -21,13 +26,6 @@ export class ListarProductosComponent implements OnInit {
   ngOnInit(): void {
     this.obtenerProductos();
   }
-
-  filtrarProductos() {
-    this.productosFiltrados = this.listProductos.filter(producto =>
-      producto.nombre.toLowerCase().includes(this.busqueda.toLowerCase())
-    );
-  }
-
 
   obtenerProductos() {
     this._productoService.getProductos().subscribe(data => {
