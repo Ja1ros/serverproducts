@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Producto } from 'src/app/models/producto';
 import { ProductoService } from 'src/app/services/producto.service';
+import { CodigoBarrasService } from 'src/app/services/codigo.service';
+
 
 @Component({
   selector: 'app-crear-producto',
@@ -14,11 +16,16 @@ export class CrearProductoComponent implements OnInit {
   productoForm: FormGroup;
   titulo = 'Crear producto';
   id: string | null;
+editando: any;
+codigoBarras: string = '';
+//edicionHabilitada: boolean = false; 
+
   constructor(private fb: FormBuilder,
               private router: Router,
               private toastr: ToastrService,
               private _productoService: ProductoService,
-              private aRouter: ActivatedRoute) { 
+              private aRouter: ActivatedRoute,
+              private codigoBarrasService: CodigoBarrasService) { 
     this.productoForm = this.fb.group({
       producto: ['', Validators.required],
       codigo: ['', Validators.required],
@@ -30,8 +37,22 @@ export class CrearProductoComponent implements OnInit {
 
   ngOnInit(): void {
     this.esEditar();
+    this.calcularCodigoBarras();
   }
 
+  /*nuevoProducto() {
+    this.titulo = 'Crear producto';
+    this.id = null; // Asegúrate de que el ID sea nulo al crear un nuevo producto
+  
+    // Habilitar todos los campos para edición
+    this.edicionHabilitada = true;
+  
+    // Reiniciar el formulario
+    this.productoForm.enable();
+    this.productoForm.reset();
+  }*/
+  
+  
   agregarProducto() {
 
     const PRODUCTO: Producto = {
@@ -44,7 +65,7 @@ export class CrearProductoComponent implements OnInit {
     if(this.id !== null){
       //editamos
       this._productoService.editarProducto(this.id, PRODUCTO).subscribe(data=>{
-        this.toastr.info('EL producto fue actualizado con exito!', 'Producto Actualizado!');
+        this.toastr.info('El producto fue actualizado con exito!', 'Producto Actualizado!');
         this.router.navigate(['/']);
       })
       
@@ -57,29 +78,37 @@ export class CrearProductoComponent implements OnInit {
     }, error => {
       console.log(error);
       this.productoForm.reset();
-    })
-
+    });
     }
+  }
 
-
-    
-
-  
+  calcularCodigoBarras() {
+    // Calcular el código de barras
+    this.codigoBarras = this.codigoBarrasService.calcularCodigoBarras(
+      this.productoForm.get('codigo')?.value,
+      this.productoForm.get('peso')?.value,
+      this.productoForm.get('precio')?.value
+    );
   }
 
   esEditar() {
 
     if(this.id !== null) {
-      this.titulo = 'Editar producto';
+      this.titulo = 'Ingresar peso del producto';
       this._productoService.obtenerProducto(this.id).subscribe(data => {
         this.productoForm.setValue({
           producto: data.nombre,
           codigo: data.codigo,
           peso: data.peso,
           precio: data.precio,
-        })
-      })
+        });
+      });
+      //this.habilitarEdicion();
     }
   }
+ /* habilitarEdicion() {
+    this.edicionHabilitada = true;
+    this.productoForm.get('peso')?.enable();
+  }*/
 
 }

@@ -1,55 +1,50 @@
-  
-  <div class="container mt-5">
-      <div class="row">
-          <div class="col-lg-8 offset-lg-2">
-              <div class="card">
-                  <div class="card-body text-center">
-                      <span class="titulo">CARNES </span>
-                      <button class="btn btn-success float-end" routerLink="/crear-producto">NUEVO</button>
-                      <div class="d-flex justify-content-center align-items-center">
-                        <div class="form-group">
-                          <input
-                            type="text"
-                            class="form-control"
-                            placeholder="Buscar producto"
-                            [(ngModel)]="busqueda"
-                          />
-                        </div>
-                      </div>
-                      <table *ngIf="listProductos.length > 0" class= "table table-responsive table-bordered">
-                          <thead >
-                            <tr>
-                              <th scope="col">Producto</th>
-                              <th scope="col">Codigo</th>
-                              <!-- <th scope="col">Peso</th>  -->
-                              <!-- <th scope="col">Precio</th>   -->
-                              <th scope="col">Código de Barras</th>
-                              <th scope="col">imagen</th>
-                              <th scope="col"></th>
-                            </tr>
-                          </thead>
-                          <tbody class="table-group-divider">
-                            <tr *ngFor="let producto of productosFiltrados">
-                              <td>{{ producto.nombre }}</td>
-                              <td>{{ producto.codigo }}</td>
-                              <!-- <td>{{ producto.peso }}</td> -->
-                              <!-- <td>{{ producto.precio}}</td> -->
-                              <td>{{ calcularCodigoBarras(producto.codigo.toString(), producto.peso, producto.precio) }}</td>
-                              <td>
-                                <button class="btn btn-outline-danger btn-sm" (click)="mostrarVentanaEmergente(generarCodigoBarras(producto.codigo.toString(), producto.peso, producto.precio))">
-                                  Mostrar Código
-                                </button>          
-                              <td>
-                                  <i [routerLink]="['/editar-producto', producto._id]" class="fas fa-edit text-primary"></i>
-                                  <!-- <i (click)="eliminarProducto(producto._id)" class="fas fa-trash text-danger"></i> -->
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                        <h5 style="text-align: start; margin-top: 10px;" *ngIf="listProductos.length == 0">No hay productos para mostrar</h5>
-                  </div>
-              </div>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-lg-8 offset-lg-2">
+      <div class="card">
+        <div class="card-body text-center">
+          <span class="titulo">LISTA DE PRODUCTOS CON PESO</span>
+          
+          <button class="btn btn-success float-end" routerLink="/crear-producto">NUEVO</button>
+          <div class="d-flex justify-content-center align-items-center">
+            <div class="form-group">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Buscar producto"
+                [(ngModel)]="busqueda"
+                (ngModelChange)="actualizarBusqueda($event)"
+              />
+            </div>
           </div>
+          <table class="table table-hover table-bordered">         
+            <thead>
+              <tr>
+                <th scope="col">Producto</th>
+                <th scope="col">Codigo</th>
+                <th scope="col">Peso</th>
+                <!-- <th scope="col">Precio</th> -->
+                <th scope="col">Código de Barras</th>                
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody class="table-group-divider">
+              <tr *ngFor="let producto of productosFiltrados"  >
+                <td>{{ producto.nombre }}</td>
+                <td>{{ producto.codigo }}</td>
+                <td>{{ producto.peso }}</td>
+                <!-- <td>{{ producto.precio }}</td> -->
+                <td>{{ generarCodigoBarras(producto.codigo.toString(), producto.peso, producto.precio) }}</td>
+                <td>
+                  <i [routerLink]="['/editar-producto', producto._id]" class="fas fa-edit text-primary"></i>
+                  <!-- <i (click)="eliminarProducto(producto._id)" class="fas fa-trash text-danger"></i> -->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <h5 style="text-align: start; margin-top: 10px;" *ngIf="productosFiltrados.length == 0">No hay productos para mostrar</h5>
+        </div>
       </div>
+    </div>
   </div>
-
+</div>
