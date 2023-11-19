@@ -4,6 +4,7 @@ import { Producto } from 'src/app/models/producto';
 import { ProductoService } from 'src/app/services/producto.service';
 import { HttpClient } from '@angular/common/http';
 import { CodigoBarrasService } from 'src/app/services/codigo.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -30,7 +31,8 @@ export class ListarProductosComponent implements OnInit {
   constructor(private _productoService: ProductoService,
         private toastr: ToastrService,
         private http: HttpClient,
-        private codigoBarrasService: CodigoBarrasService) { }
+        private codigoBarrasService: CodigoBarrasService,
+        private router: Router) { }
 
   ngOnInit(): void {
     this.obtenerProductos();
@@ -48,10 +50,11 @@ export class ListarProductosComponent implements OnInit {
       console.log(error);
     })
   }
-
-  editarProducto(producto: any) {
-    this.productoSeleccionado = producto;
-    this.busquedaInicial = this.busqueda; // Guarda la búsqueda actual antes de editar
+//editarProducto(producto: any)
+  editarProducto(id: string) {
+    this.router.navigate(['/editar-producto', id]);
+    /*this.productoSeleccionado = producto;
+    this.busquedaInicial = this.busqueda;*/ // Guarda la búsqueda actual antes de editar
 }
 
   guardarCambios() {
@@ -75,6 +78,7 @@ export class ListarProductosComponent implements OnInit {
       );
     }
   }
+  
   actualizarProductosFiltrados() {
     this.filtrarProductos = this.listProductos.filter((producto) =>
     producto.nombre.toLowerCase().includes(this.busquedaActual.toLowerCase())

@@ -2,6 +2,7 @@
 
 import { Injectable } from '@angular/core';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -21,16 +22,16 @@ export class CodigoBarrasService {
         const parteDecimal = partes[1] || '';
         let nuevoprimerDecimal = 0;
         let nuevoSegundoDecimal = 0;
-        console.log(parteDecimal);
+     //   console.log(parteDecimal);
     
         if (parteDecimal.length >= 3) {
           const tercerDecimal = parseInt(parteDecimal[2], 10);
-          console.log('tercerdecimal',tercerDecimal)
+       //   console.log('tercerdecimal',tercerDecimal)
             if (tercerDecimal >= 5) {
               const segundoDecimal = parseInt(parteDecimal[1], 10);
-              console.log('2do',segundoDecimal)
+           //   console.log('2do',segundoDecimal)
               const nuevoSegundoDecimal = (segundoDecimal + 1) % 10;
-              console.log('2dodecimal',nuevoSegundoDecimal)
+           //   console.log('2dodecimal',nuevoSegundoDecimal)
               const primerDecimal = parseInt(parteDecimal[0], 10);
               const nuevoprimerDecimal = primerDecimal + (segundoDecimal + 1 >= 10 ? 1 : 0);
             
@@ -47,10 +48,10 @@ export class CodigoBarrasService {
             }
             else{
               const segundoDecimal = parseInt(parteDecimal[1], 10);
-              console.log('2do2',segundoDecimal)
+             // console.log('2do2',segundoDecimal)
               
               const primerDecimal = parseInt(parteDecimal[0], 10);
-              console.log('1er',primerDecimal)
+             // console.log('1er',primerDecimal)
     
               if (parteEnteramulti < 10) {
               let resultado = `26${codigo}000${parteEntera}${primerDecimal}${segundoDecimal}`;

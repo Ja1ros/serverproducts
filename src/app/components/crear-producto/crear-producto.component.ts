@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Producto } from 'src/app/models/producto';
 import { ProductoService } from 'src/app/services/producto.service';
-import { CodigoBarrasService } from 'src/app/services/codigo.service';
+//import { CodigoBarrasService } from 'src/app/services/codigo.service';
 
 
 @Component({
@@ -24,20 +24,23 @@ codigoBarras: string = '';
               private router: Router,
               private toastr: ToastrService,
               private _productoService: ProductoService,
-              private aRouter: ActivatedRoute,
-              private codigoBarrasService: CodigoBarrasService) { 
+              private aRouter: ActivatedRoute){ 
+              //private codigoBarrasService: CodigoBarrasService) 
     this.productoForm = this.fb.group({
-      producto: ['', Validators.required],
-      codigo: ['', Validators.required],
-      peso: ['', Validators.required],
-      precio: ['', Validators.required],
+      //producto: ['', Validators.required],
+      producto: [''],
+      codigo: [''],
+      peso: [''],
+      precio: [''],
     })
     this.id = this.aRouter.snapshot.paramMap.get('id');
   }
 
   ngOnInit(): void {
-    this.esEditar();
-    this.calcularCodigoBarras();
+    //this.esEditar();
+    //this.calcularCodigoBarras();
+    this.agregarProducto();
+    
   }
 
   /*nuevoProducto() {
@@ -53,6 +56,7 @@ codigoBarras: string = '';
   }*/
   
   
+  
   agregarProducto() {
 
     const PRODUCTO: Producto = {
@@ -66,7 +70,9 @@ codigoBarras: string = '';
       //editamos
       this._productoService.editarProducto(this.id, PRODUCTO).subscribe(data=>{
         this.toastr.info('El producto fue actualizado con exito!', 'Producto Actualizado!');
-        this.router.navigate(['/']);
+        this.router.navigate(['/']).then(() => {
+          console.log('Navegacion realizada correctamente')
+        });
       })
       
     } else{
@@ -82,16 +88,16 @@ codigoBarras: string = '';
     }
   }
 
-  calcularCodigoBarras() {
+ /*calcularCodigoBarras() {
     // Calcular el código de barras
     this.codigoBarras = this.codigoBarrasService.calcularCodigoBarras(
       this.productoForm.get('codigo')?.value,
       this.productoForm.get('peso')?.value,
       this.productoForm.get('precio')?.value
     );
-  }
+  }*/
 
-  esEditar() {
+ /* esEditar() {
 
     if(this.id !== null) {
       this.titulo = 'Ingresar peso del producto';
@@ -105,7 +111,7 @@ codigoBarras: string = '';
       });
       //this.habilitarEdicion();
     }
-  }
+  }*/
  /* habilitarEdicion() {
     this.edicionHabilitada = true;
     this.productoForm.get('peso')?.enable();
